@@ -1,13 +1,14 @@
 // main-1-3.cpp
 #include <iostream>
-#include "function-1-3.cpp" 
+
+double* duplicateArray(double* array, int size); 
 
 int main() {
     double myArray[] = {3.5, 2.1, 5.9, 1.4, 7.2}; 
     int size = sizeof(myArray) / sizeof(myArray[0]); 
 
     double* duplicatedArray = duplicateArray(myArray, size); 
-
+    
     if (duplicatedArray != nullptr) { 
         
         std::cout << "Duplicated array: ";
