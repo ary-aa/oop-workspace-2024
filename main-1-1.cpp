@@ -1,6 +1,7 @@
 // main-1-1.cpp
 #include <iostream>
-#include "function-1-1.cpp" 
+
+double arrayMin(double* array, int size); 
 
 int main() {
     double myArray[] = {3.5, 2.1, 5.9, 1.4, 7.2}; 
