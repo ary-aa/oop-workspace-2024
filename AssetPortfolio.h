@@ -32,3 +32,4 @@ public:
     bool add_asset(Asset new_asset);
 };
 
+#endif // ASSET_H
