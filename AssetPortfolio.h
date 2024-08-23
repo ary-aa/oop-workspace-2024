@@ -5,21 +5,21 @@
 
 class AssetPortfolio {
 private:
-    int max_size;        // Maximum number of assets
-    int num_assets;      // Current number of assets
-    Asset* assets;       // Array of assets
+    int max_size;        
+    int num_assets;      
+    Asset* assets;       
 
 public:
     // Default constructor
     AssetPortfolio();
 
-    // Constructor with a specified size
+    // Constructor - specific size
     AssetPortfolio(int size);
 
     // Destructor
     ~AssetPortfolio();
 
-    // Returns the number of assets in the portfolio
+    // Returns number of assets
     int get_num_assets();
 
     // Returns true if any asset in the portfolio is of the specified product type
