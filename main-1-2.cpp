@@ -6,7 +6,7 @@ int main() {
     AssetPortfolio portfolio1;
     std::cout << "Portfolio 1 has " << portfolio1.get_num_assets() << " assets." << std::endl;
 
-    // Create a portfolio with a capacity of 2 assets
+    // Create a portfolio with maximum capacity: 2 assets
     AssetPortfolio portfolio2(2);
 
     // Add assets to the portfolio
@@ -23,13 +23,11 @@ int main() {
     std::cout << "Added Bond: " << (added2 ? "Yes" : "No") << std::endl;
     std::cout << "Added Real Estate: " << (added3 ? "Yes" : "No") << std::endl;
   
-    // Check if portfolio has a specific type of asset
+    // Check specific types of assets in the portfolio: (if it is stock, real estate etc)
     std::cout << "Portfolio 2 has Stock: " << (portfolio2.has_asset("Stock") ? "Yes" : "No") << std::endl;
     std::cout << "Portfolio 2 has Real Estate: " << (portfolio2.has_asset("Real Estate") ? "Yes" : "No") << std::endl;
-
-    std::cout << "Portfolio 2 has Stock: " << (portfolio2.has_asset("Stock") ?
   
-    // Output the assets in the portfolio
+    // Output assets
     Asset* assets = portfolio2.get_assets();
     for (int i = 0; i < portfolio2.get_num_assets(); i++) {
         std::cout << "Asset " << (i + 1) << ": Type = " << assets[i].get_product_type() << ", Value = " << assets[i].get_value() << std::endl;
