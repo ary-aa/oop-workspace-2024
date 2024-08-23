@@ -9,18 +9,17 @@ private:
     std::string product_type;
 
 public:
-    // Default constructor
+
     Asset();
 
-    // Constructor that takes the product type and value
+    
     Asset(int value, std::string product_type);
 
-    // Getters
+
     std::string get_product_type();
 
     int get_value();
 
-    // Destructor
     ~Asset();
 };
 
