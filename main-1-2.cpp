@@ -2,7 +2,7 @@
 #include "AssetPortfolio.h"
 
 int main() {
-    // Create an empty portfolio
+    //empty portfolio
     AssetPortfolio portfolio1;
     std::cout << "Portfolio 1 has " << portfolio1.get_num_assets() << " assets." << std::endl;
 
@@ -10,9 +10,9 @@ int main() {
     AssetPortfolio portfolio2(2);
 
     // Add assets to the portfolio
-    Asset asset1(1000, "Stock");
-    Asset asset2(5000, "Bond");
-    Asset asset3(3000, "Real Estate");
+    Asset asset1(100, "Stock");
+    Asset asset2(550, "Bond");
+    Asset asset3(436, "Real Estate");
 
     bool added1 = portfolio2.add_asset(asset1);
     bool added2 = portfolio2.add_asset(asset2);
