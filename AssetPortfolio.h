@@ -32,3 +32,4 @@ public:
     bool add_asset(Asset new_asset);
 };
 
+#endif // ASSETOORTFOLIO_H
