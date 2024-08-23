@@ -15,10 +15,9 @@ public:
     // Constructor that takes the product type and value
     Asset(int value, std::string product_type);
 
-    // Getter for product type
+    // Getters
     std::string get_product_type();
 
-    // Getter for value
     int get_value();
 
     // Destructor
