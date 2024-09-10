@@ -6,3 +6,6 @@ class AirVehicle {
 public:
     AirVehicle();
     AirVehicle(int w);
+    AirVehicle (float f);
+    AirVehicle (int flights);
+}
