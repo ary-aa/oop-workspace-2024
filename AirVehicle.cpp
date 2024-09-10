@@ -25,7 +25,7 @@ int AirVehicle::get_numberOfFlights() const {
     return numberOfFlights;
 }
 
-void AirVehicle::Set_weight(int w) {
+void AirVehicle::set_weight(int w) {
   weight = w;
 }
 
