@@ -1,6 +1,7 @@
 #ifndef PIT_HPP
 #define PIT_HPP
 
+#include "Explorer.hpp"
 #include "Interactable.hpp"
 #include "Helper.hpp"
 
