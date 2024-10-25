@@ -1,6 +1,7 @@
 #ifndef INTERACTABLE_HPP
 #define INTERACTABLE_HPP
 
+#include "Explorer.hpp"
 #include "GridItem.hpp"
 
 enum InteractableType { EXIT, PIT };
