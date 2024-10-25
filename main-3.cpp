@@ -1,35 +1,35 @@
-#include "Game.hpp"
 #include <iostream>
+#include "Game.hpp"
 
 int main() {
-    // Create game grid of size 5x5 with pits at coordinates (2,2) and (3,3)
-    std::vector<std::tuple<int, int>> pitCoordinates = { {2, 2}, {3, 3} };
-    Game game(5, 5, pitCoordinates);
+    // Define grid size
+    const int width = 5;
+    const int height = 5;
 
-    // Initial grid state
-    std::cout << "Initial Grid:\n";
-    game.printGrid();
-    game.displayState();
+    // Define pit coordinates
+    std::vector<std::tuple<int, int>> pitCoordinates = {
+        {1, 1},
+        {2, 3},
+        {3, 0}
+    };
 
-    // Move player towards the first pit
-    std::cout << "\nMoving player to (2, 2)...\n";
-    game.movePlayer(2, 0);
-    game.movePlayer(0, 2);
-    game.printGrid();
-    game.displayState();
+    // Create the game
+    Game game(width, height, pitCoordinates);
 
-    // Move player to (3, 3) and check if they fall into the second pit
-    std::cout << "\nMoving player to (3, 3)...\n";
-    game.movePlayer(1, 1);
-    game.printGrid();
-    game.displayState();
-
-    // If the game is still going, move player to the exit
-    if (!game.displayState()) {
-        std::cout << "\nMoving player to the exit...\n";
-        game.movePlayer(1, 1);
+    // Game loop
+    while (game.displayState() == false) {
         game.printGrid();
-        game.displayState();
+        
+        // Move player: Sample moves; you can change these to test different paths
+        game.movePlayer(1, 0); // Move right
+        game.movePlayer(0, 1); // Move down
+        game.movePlayer(1, 1); // Move diagonal (invalid move)
+        game.movePlayer(1, 0); // Move right
+
+        // Check for win or lose condition
+        if (game.displayState()) {
+            break;
+        }
     }
 
     return 0;
