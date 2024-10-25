@@ -5,110 +5,113 @@
 #include <vector>
 #include <tuple>
 #include "Explorer.hpp"
-#include "Pit.hpp"
 #include "Exit.hpp"
-
-// Enum to represent the game state
-enum GameState { WIN, LOSE, PLAYING };
+#include "Pit.hpp"
 
 class Game {
+public:
+    enum GameState {
+        WIN,
+        LOSE,
+        PLAYING
+    };
+
 private:
-    int width, height;
+    int width;
+    int height;
     Explorer* player;
-    Exit* gameExit;
+    Exit* goal;
     std::vector<Pit*> pits;
-    GameState currentState;
+    GameState state;
 
 public:
     // Constructor
-    Game(int gridWidth, int gridHeight, std::vector<std::tuple<int, int>> pitCoordinates) 
-        : width(gridWidth), height(gridHeight), currentState(PLAYING) {
-        // Create Explorer
-        player = new Explorer(gridWidth, gridHeight);
-        
-        // Create Exit at bottom-right corner
-        gameExit = new Exit(gridWidth, gridHeight);
-        
-        // Create Pits at specified coordinates
-        for (auto& coords : pitCoordinates) {
-            int pitX = std::get<0>(coords);
-            int pitY = std::get<1>(coords);
-            // Make sure the pit is not placed at the player's starting position or exit position
-            if (!(pitX == 0 && pitY == 0) && !(pitX == width - 1 && pitY == height - 1)) {
-                pits.push_back(new Pit(pitX, pitY, gridWidth, gridHeight));
+    Game(int w, int h, std::vector<std::tuple<int, int>> pitCoordinates)
+        : width(w), height(h), state(PLAYING) {
+        player = new Explorer(width, height);
+        goal = new Exit(width, height);
+
+        // Create Pit objects
+        for (const auto& coords : pitCoordinates) {
+            int x = std::get<0>(coords);
+            int y = std::get<1>(coords);
+            // Ensure the position is not already taken
+            if (!((x == 0 && y == 0) || (x == width - 1 && y == height - 1))) {
+                pits.push_back(new Pit(x, y, 1, 1));
             }
         }
     }
 
-    // Destructor to free dynamic memory
-    ~Game() {
-        delete player;
-        delete gameExit;
-        for (Pit* pit : pits) {
-            delete pit;
-        }
-    }
-
-    // Display game state
+    // Display current game state
     bool displayState() {
-        if (currentState == WIN) {
-            std::cout << "You win!\n";
-            return true;
-        } else if (currentState == LOSE) {
-            std::cout << "You lose :(\n";
-            return true;
-        } else {
-            std::cout << "Game on\n";
-            return false;
+        switch (state) {
+            case WIN:
+                std::cout << "You win!" << std::endl;
+                return true;
+            case LOSE:
+                std::cout << "You lose :(" << std::endl;
+                return true;
+            case PLAYING:
+                std::cout << "Game on" << std::endl;
+                return false;
         }
+        return false;
     }
 
-    // Move the player on the grid
+    // Move the player
     void movePlayer(int dx, int dy) {
-        if (currentState == PLAYING) {
+        if (state == PLAYING) {
             // Move the player
             if (player->move(dx, dy)) {
-                // Check if the player interacts with any pits
-                for (Pit* pit : pits) {
-                    if (pit->interact(player)) {
-                        currentState = LOSE; // Game over if explorer falls into pit
-                        return;
-                    }
+                // Check for win condition
+                if (goal->interact(player)) {
+                    state = WIN;
                 }
-
-                // Check if player has reached the exit
-                if (gameExit->interact(player)) {
-                    currentState = WIN;
+                // Check for interactions with pits
+                for (auto& pit : pits) {
+                    if (pit->interact(player)) {
+                        state = LOSE;
+                        break;
+                    }
                 }
             }
         }
     }
 
-    // Print the current grid state
+    // Print the grid
     void printGrid() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (std::get<0>(player->getCoordinates()) == x && std::get<1>(player->getCoordinates()) == y) {
-                    std::cout << 'X'; // Player's position
-                } else if (std::get<0>(gameExit->getCoordinates()) == x && std::get<1>(gameExit->getCoordinates()) == y) {
-                    std::cout << 'E'; // Exit's position
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
+                if (x == 0 && y == 0) {
+                    std::cout << 'X'; // Player
+                } else if (x == width - 1 && y == height - 1) {
+                    std::cout << 'E'; // Exit
                 } else {
                     bool isPit = false;
-                    for (Pit* pit : pits) {
+                    for (const auto& pit : pits) {
                         if (std::get<0>(pit->getCoordinates()) == x && std::get<1>(pit->getCoordinates()) == y) {
-                            std::cout << 'P'; // Pit's position
+                            std::cout << 'P'; // Pit
                             isPit = true;
                             break;
                         }
                     }
                     if (!isPit) {
-                        std::cout << '_'; // Empty space
+                        std::cout << '_'; // Empty cell
                     }
                 }
             }
-            std::cout << "\n";
+            std::cout << std::endl; // New line after each row
+        }
+    }
+
+    // Destructor
+    ~Game() {
+        delete player;
+        delete goal;
+        for (auto& pit : pits) {
+            delete pit;
         }
     }
 };
 
-#endif
+#endif // GAME_HPP
