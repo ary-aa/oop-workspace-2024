@@ -1,6 +1,7 @@
 #ifndef EXIT_HPP
 #define EXIT_HPP
 
+#include "Explorer.hpp"
 #include "Interactable.hpp"
 #include "Helper.hpp"
 
