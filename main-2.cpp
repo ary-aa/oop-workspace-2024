@@ -1,51 +1,43 @@
 #include <iostream>
 #include "Explorer.hpp"
-#include "Pit.hpp"
 #include "Exit.hpp"
+#include "Pit.hpp"
 
 int main() {
-    // Create grid of size 5x5
-    int gridWidth = 5, gridHeight = 5;
-    
-    // Create an Explorer
-    Explorer player(gridWidth, gridHeight);
-    
-    // Create Exit and Pit objects
-    Exit gameExit(gridWidth, gridHeight);
-    Pit pit(2, 2, gridWidth, gridHeight);
-    
-    // Display initial position and stamina
-    std::cout << "Explorer starting position: (" 
-              << std::get<0>(player.getCoordinates()) << ", " 
-              << std::get<1>(player.getCoordinates()) << ")\n";
-    std::cout << "Explorer stamina: " << player.getStamina() << "\n";
+    // Create grid dimensions
+    const int width = 5;
+    const int height = 5;
 
-    // Move explorer to (2, 2) (onto the Pit)
-    std::cout << "\nMoving explorer to (2, 2)...\n";
-    if (player.move(2, 0)) {
-        player.move(0, 2);  // Moving vertically next
-    }
-    std::cout << "Explorer position after moving: (" 
-              << std::get<0>(player.getCoordinates()) << ", " 
-              << std::get<1>(player.getCoordinates()) << ")\n";
-    std::cout << "Explorer stamina: " << player.getStamina() << "\n";
+    // Create an explorer
+    Explorer explorer(width, height);
+
+    // Create an exit and a pit
+    Exit exit(width, height);
+    Pit pit(2, 2, 1, 1); // Pit at (2, 2)
+
+    // Test initial stamina
+    std::cout << "Initial stamina: " << explorer.getStamina() << "\n";
+
+    // Move explorer to the pit
+    explorer.move(2, 2); // Move to (2, 2)
+    std::cout << "Explorer moved to pit at (2, 2)\n";
 
     // Interact with the pit
-    if (pit.interact(&player)) {
-        std::cout << "Explorer jumped into the pit. Current stamina: " << player.getStamina() << "\n";
+    if (pit.interact(&explorer)) {
+        std::cout << "Explorer jumped over the pit, stamina is now " << explorer.getStamina() << "\n";
     } else {
-        std::cout << "Explorer avoided the pit.\n";
+        std::cout << "Explorer could not interact with the pit\n";
     }
 
-    // Move explorer to the exit
-    std::cout << "\nMoving explorer to the exit...\n";
-    player.move(2, 1);  // Moving to the bottom-right corner (exit)
-    
-    // Check if explorer interacts with the exit
-    if (gameExit.interact(&player)) {
-        std::cout << "Explorer reached the exit! You win!\n";
+    // Move explorer to exit
+    explorer.move(3, 3); // Move to (3, 3)
+    std::cout << "Explorer moved to exit at (4, 4)\n";
+
+    // Interact with the exit
+    if (exit.interact(&explorer)) {
+        std::cout << "Explorer reached the exit!\n";
     } else {
-        std::cout << "Explorer hasn't reached the exit yet.\n";
+        std::cout << "Explorer has not reached the exit yet.\n";
     }
 
     return 0;
