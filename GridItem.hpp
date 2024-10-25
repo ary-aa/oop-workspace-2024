@@ -1,20 +1,58 @@
 #ifndef GRIDITEM_HPP
 #define GRIDITEM_HPP
 
+#include <tuple>
+
 class GridItem {
 private:
-    int x, y, width, height;
+    int x, y;                  // Coordinates of the GridItem
+    int width, height;        // Dimensions of the GridItem
+    static int activeCount;    // Static count of active GridItem objects
 
 public:
-    GridItem(int x, int y, int width, int height) : x(x), y(y), width(width), height(height) {}
+    // Default constructor
+    GridItem() : x(0), y(0), width(0), height(0) {
+        activeCount++;
+    }
 
-    // Getters for x and y
-    int getX() const { return x; }
-    int getY() const { return y; }
+    // Parameterized constructor
+    GridItem(int x, int y, int width, int height) : x(x), y(y), width(width), height(height) {
+        activeCount++;
+    }
 
-    // Setters for x and y
-    void setX(int newX) { x = newX; }
-    void setY(int newY) { y = newY; }
+    // Set coordinates
+    void setCoordinates(int x, int y) {
+        this->x = x;
+        this->y = y;
+    }
+
+    // Get coordinates
+    std::tuple<int, int> getCoordinates() {
+        return std::make_tuple(x, y);
+    }
+
+    // Get grid width
+    int getGridWidth() {
+        return width;
+    }
+
+    // Get grid height
+    int getGridHeight() {
+        return height;
+    }
+
+    // Get active GridItem count
+    static int getActiveGridItemCount() {
+        return activeCount;
+    }
+
+    // Destructor
+    virtual ~GridItem() {
+        activeCount--;
+    }
 };
 
-#endif
+// Initialize static member
+int GridItem::activeCount = 0;
+
+#endif // GRIDITEM_HPP
