@@ -3,6 +3,7 @@
 
 #include "Interactable.hpp"
 #include "Helper.hpp"
+#include "Explorer.hpp" 
 
 class Pit : public Interactable {
 private:
