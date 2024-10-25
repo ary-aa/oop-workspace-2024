@@ -2,41 +2,49 @@
 #define EXPLORER_HPP
 
 #include "GridItem.hpp"
+#include <iostream>
 
 class Explorer : public GridItem {
-private:
     int stamina;
+    int gridWidth;
+    int gridHeight;
 
 public:
-    // Constructor
-    Explorer(int gridWidth, int gridHeight) : GridItem(0, 0, gridWidth, gridHeight), stamina(2) {}
+    // Constructor sets initial position and stamina
+    Explorer(int width, int height) : GridItem(0, 0, width, height), stamina(2), gridWidth(width), gridHeight(height) {}
 
-    // Get stamina
-    int getStamina() const {
+    // Get current stamina
+    int getStamina() {
         return stamina;
     }
 
-    // Jump over a pit
+    // Decrement stamina when jumping over a pit
     void jumpPit() {
         if (stamina > 0) {
-            stamina--;
+            --stamina;
         }
     }
 
-    // Move explorer
+    // Move function with boundary checks and direction checks
     bool move(int xOffset, int yOffset) {
-        // Ensure the move is valid (either in x or y direction, but not both)
-        if ((xOffset != 0 && yOffset != 0) || stamina <= 0) {
+        // Ensure only one direction is non-zero for valid move
+        if ((xOffset != 0 && yOffset != 0) || (xOffset == 0 && yOffset == 0)) {
             return false;
         }
 
-        int newX = std::get<0>(getCoordinates()) + xOffset;
-        int newY = std::get<1>(getCoordinates()) + yOffset;
+        // Calculate new position
+        int newX = x + xOffset;
+        int newY = y + yOffset;
 
-        if (newX >= 0 && newX < getGridWidth() && newY >= 0 && newY < getGridHeight()) {
-            setCoordinates(newX, newY);
+        // Validate if new position is within grid boundaries
+        if (newX >= 0 && newX < gridWidth && newY >= 0 && newY < gridHeight) {
+            x = newX;
+            y = newY;
+            std::cout << "new position: " << x << ", " << y << std::endl;
             return true;
         }
+
+        // Move not possible if out of bounds
         return false;
     }
 };
