@@ -2,6 +2,7 @@
 #define EXPLORER_HPP
 
 #include "GridItem.hpp"
+#include "Explorer.hpp" 
 
 class Explorer : public GridItem {
 private:
